@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MrButtersDev - AutoPickup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://avatars.githubusercontent.com/u/24533643?s=40&v=4">
+</head>
+<body>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const url = "https://api.spigotmc.org/legacy/update.php?resource=70157";
+            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+    
+            fetch(proxyUrl)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("version-badge").textContent = data;
+                })
+                .catch(error => {
+                    console.error("Error fetching the data:", error);
+                    document.getElementById("version-badge").textContent = "Error";
+                });
+        });
+    </script>
+    
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand px-3" href="#">
+            <img src="https://avatars.githubusercontent.com/u/24533643?s=40&v=4" width="30" height="30" class="rounded d-inline-block align-top" alt="">
+            MrButters.Dev
+        </a>
+      
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="../index.html">Home</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../about.html">About</a>
+              </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Plugins
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="./plugins/autopickup.html">AutoPickup <span class="badge text-bg-info">Popular</span></a></li>
+                <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/silky-spawners-lite-silk-touch-your-spawners-silk-spawners-1-20-support.76103/" target="_blank">SilkySpawnersLITE <span class="badge text-bg-info">Popular</span></a></li>
+                <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/litespawners.107576/" target="_blank">LiteSpawners</a></li>
+                <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/wax-indicator.93197/" target="_blank">Wax Indicator</a></li>
+                <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/slime-indicator.93368/" target="_blank">Slime Indicator</a></li>
+                <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/rtp-me.79718/" target="_blank">RTP-Me</a></li>
+                <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/seeeeds-crop-protection-from-premature-harvesting.79662/" target="_blank">Seeeeds</a></li>
+                <li><a class="dropdown-item disabled" href="#" target="_blank"><s>Silky Shops</s></a></li>
+                <li><a class="dropdown-item disabled" href="#" target="_blank"><s>SilkySpawners</s></a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a target="_blank" class="dropdown-item" href="https://www.spigotmc.org/resources/authors/mrbuttersdev.159512/">View on Spigot</a></li>
+                <li><a target="_blank" class="dropdown-item" href="https://hangar.papermc.io/MrButtersDev?sort=-updated">View on Hanger</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+    <div class="container mt-5">
+        <header class="text-center mb-4">
+            <h1 class="display-4"><img class="rounded" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069"> AutoPickup</h1>
+            <p class="lead">Automatically pickup blocks that you mine! If a block drops XP you get that too!</p>
+
+            <a href="https://www.spigotmc.org/resources/autopickup-1-21-support.70157/history" target="_blank" class="btn btn-success">Download Version: <span id="version-badge" class="badge rounded-pill bg-dark">Loading...</span></a>
+            <a href="https://github.com/MrButtersDEV/AutoPickup/tree/master" target="_blank" class="btn btn-dark">View on Github</a>
+            <a href="https://www.spigotmc.org/resources/70157/" target="_blank" class="btn btn-warning">View on Spigot</a>
+            <a href="https://hangar.papermc.io/MrButtersDev/AutoPickup" target="_blank" class="btn btn-info">View on Hanger</a>
+        </header>
+
+        <section class="mb-5">
+            <h2 class="mb-3">Features</h2>
+            <ul>
+                <li>Automatically pickup blocks & exp.</li>
+                <li>Supports mob drops & entity exp.</li>
+                <li>Auto smelt for blocks.</li>
+                <li>Stays enabled on relog/server restart.</li>
+                <li>Custom Messages w/ Hex color support <kbd>&amp#00AAFF</kbd>.</li>
+                <li>Disable permission checks.</li>
+            </ul>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="mb-3">Commands and Permissions</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Permission</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>/autopickup</td>
+                        <td>Toggles AutoPickup on or off.</td>
+                        <td>autopickup.toggle</td>
+                    </tr>
+                    <tr>
+                        <td>/apreload</td>
+                        <td>Reloads the plugin configuration.</td>
+                        <td>autopickup.admin</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="mb-3">PlaceholderAPI Placeholders</h2>
+            <ul>
+                <li><code>%autopickup_autoenabled%</code>: Shows if AutoPickup is enabled for blocks.</li>
+                <li><code>%autopickup_dropsenabled%</code>: Shows if AutoPickup is enabled for mob drops.</li>
+                <li><code>%autopickup_autosmeltenabled%</code>: Shows if Auto Semlt in enabled.</li>
+            </ul>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="mb-3">bStats</h2>
+            <div class="text-center">
+                <img src="https://bstats.org/signatures/bukkit/AutoPickup.svg" alt="bStats Chart" class="img-fluid">
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="mb-3">Config Files</h2>
+            <div>
+                <h5>config.yml</h5>
+                <pre class="bg-light p-3 rounded">
+ConfigVersion: 1.4
+#############################################################################################################
+#                          _             _____    _          _                                              #
+#          /\             | |           |  __ \  (_)        | |                                             #
+#         /  \     _   _  | |_    ___   | |__) |  _    ___  | | __  _   _   _ __                            #
+#        / /\ \   | | | | | __|  / _ \  |  ___/  | |  / __| | |/ / | | | | | '_ \                           #
+#       / ____ \  | |_| | | |_  | (_) | | |      | | | (__  |   <  | |_| | | |_) |                          #
+#      /_/    \_\  \__,_|  \__|  \___/  |_|      |_|  \___| |_|\_\  \__,_| | .__/                           #
+#                                                                          | |                              #
+#                                                                          |_|                              #
+#############################################################################################################
+# By: BUTTERFIELD8 & The Zircon Network                                                                     #
+# Discord: https://discord.gg/ncHH4FP                                                                       #
+#############################################################################################################
+
+#Message Prefix
+msgPrefix: "&8[&5Auto&d&oPickup&8]"
+
+#Toggle Message - /auto
+msgAutoPickupEnable: "&7You have&a enabled &7auto pickup."
+msgAutoPickupDisable: "&7You have&c disabled &7auto pickup."
+
+#Toggle Message - /autosmelt
+msgAutoSmeltEnable: "&7You have&a enabled &7auto smelt."
+msgAutoSmeltDisable: "&7You have&c disabled &7auto smelt."
+
+#Toggle Message - /drops
+msgAutoMobDropsEnable: "&7You have&a enabled &7auto drops."
+msgAutoMobDropsDisable: "&7You have&c disabled &7auto drops."
+
+#Aditional toggling messages
+msgAutoEnable: "&7Auto pickup has been automatically&a enabled&7."
+doAutoEnableMSG: true
+msgEnabledJoinMSG: "&7Auto pickup has been automatically&a enabled&7."
+doEnabledOnJoinMSG: true
+
+#Reload Config Message
+msgReload: "&cReloaded Config"
+
+#Fully Inventory Message
+msgFullInv: "&7Your inventory is full!"
+doFullInvMSG: true
+titlebar:
+    doTitleBar: false
+    line1: "&cWarning"
+    line2: "&7Inventory is full!"
+
+#This is most useful for prison servers! -- This setting is not normally recommended
+#This feature voids any extra blocks broken when /auto is enabled and the inventory is full!
+voidOnFullInv: false
+
+#If set to true AutoPickup will ignore XP drop calculations from when using a silk spawner plugin.
+usingSilkSpawnerPlugin: true
+
+#If set to true mobs will naturally drop XP
+ignoreMobXPDrops: false
+
+#Plase does not have permission
+msgNoperms: "&cYou don't have permission to use this command"
+
+#Require Permissions | Do players require permission to run commands?
+requirePerms:
+    autopickup: true
+    auto-reload: true
+                    
+                    </pre>
+            </div>
+            <div>
+                <h5>blacklist.yml</h5>
+                <pre class="bg-light p-3 rounded">
+#############################################################################################################
+#                          _             _____    _          _                                              #
+#          /\             | |           |  __ \  (_)        | |             B L A C K L I S T . Y M L       #
+#         /  \     _   _  | |_    ___   | |__) |  _    ___  | | __  _   _   _ __                            #
+#        / /\ \   | | | | | __|  / _ \  |  ___/  | |  / __| | |/ / | | | | | '_ \                           #
+#       / ____ \  | |_| | | |_  | (_) | | |      | | | (__  |   <  | |_| | | |_) |                          #
+#      /_/    \_\  \__,_|  \__|  \___/  |_|      |_|  \___| |_|\_\  \__,_| | .__/                           #
+#                                                                          | |                              #
+#                                                                          |_|                              #
+#############################################################################################################
+# By: BUTTERFIELD8 & The Zircon Network                                                                     #
+# Discord: https://discord.gg/ncHH4FP                                                                       #
+# Material Names: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html                         #
+# Entity Names: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html                  #
+#############################################################################################################
+
+#Set to "true" if you would like to enable the blacklist
+doBlacklisted: false
+doBlacklistedEntities: true
+doAutoSmeltBlacklist: false
+
+#By listing blocks below you are adding them to the blacklist therefore causing them to drop to the ground.
+Blacklisted:
+    - DIRT
+    - SAND
+
+BlacklistedEntities:
+    - PLAYER
+
+BlacklistedWorlds:
+    - example
+
+#These materials will be ignored when auto smelt is enabled. Only items that can be smelted should be added.
+AutoSmeltBlacklist:
+    - OAK_LOG
+            </div>
+            <div>
+                <h5>papi.yml</h5>
+                <pre class="bg-light p-3 rounded">
+#############################################################################################################
+#                          _             _____    _          _                                              #
+#          /\             | |           |  __ \  (_)        | |                       P A P I . Y M L       #
+#         /  \     _   _  | |_    ___   | |__) |  _    ___  | | __  _   _   _ __                            #
+#        / /\ \   | | | | | __|  / _ \  |  ___/  | |  / __| | |/ / | | | | | '_ \                           #
+#       / ____ \  | |_| | | |_  | (_) | | |      | | | (__  |   <  | |_| | | |_) |                          #
+#      /_/    \_\  \__,_|  \__|  \___/  |_|      |_|  \___| |_|\_\  \__,_| | .__/                           #
+#                                                                          | |                              #
+#                                                                          |_|                              #
+#############################################################################################################
+# By: BUTTERFIELD8 & The Zircon Network                                                                     #
+# Discord: https://discord.gg/ncHH4FP                                                                       #
+#############################################################################################################
+papi:
+    enabled:
+    true: "&aEnabled"
+    false: "&cDisabled"
+            </div>
+        </section>
+
+        <footer class="text-center mt-5">
+            <hr>
+            <p class="small"> <strong>Note:</strong> Ensure compatibility with your server version before installing.</p>
+            <p><strong>Happy Crafting!</strong></p>
+        </footer>
+    </div>
+</body>
+</html>
