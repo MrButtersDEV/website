@@ -22,6 +22,58 @@
           background: linear-gradient(to right, rgb(33, 37, 41), teal, blue, red, gold); /* Left-to-right gradient */
           z-index: 1; /* Ensures it appears above the background but below other content */
       }
+
+    @keyframes slide {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-100%);
+      }
+    } 
+
+    .logos {
+      overflow: hidden;
+      padding: 15px 0;
+      background: white;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .logos:before,
+    .logos:after {
+      position: absolute;
+      top: 0;
+      width: 250px;
+      height: 100%;
+      content: "";
+      z-index: 2;
+    }
+
+    .logos:before {
+      left: 0;
+      background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
+    }
+
+    .logos:after {
+      right: 0;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
+    }
+
+    .logos:hover .logos-slide {
+      animation-play-state: paused;
+    }
+
+    .logos-slide {
+      display: inline-block;
+      animation: 35s slide infinite linear;
+    }
+
+    .logos-slide img {
+      height: 50px;
+      margin: 0 40px;
+    }
+
   </style>
 
 </head>
@@ -75,6 +127,25 @@
             <h1 class="display-4">Spigot Plugins by MrButtersDev</h1>
             <p class="lead">Welcome to the official plugin page of <strong>MrButtersDev</strong>! Here you will find a collection of custom Spigot plugins designed to enhance your Minecraft server.</p>
         </header>
+
+        <section class="mb-3">
+          <div class="logos">
+            <div class="logos-slide">
+              <img class="rounded" src="./plugin-icons/AutoPickup.png" />
+              <img class="rounded" src="./plugin-icons/SilkySpawnersLITE.png" />
+              <img class="rounded" src="./plugin-icons/LiteSpawners.png" />
+              <img class="rounded" src="./plugin-icons/Wax Indicator.png" />
+              <img class="rounded" src="./plugin-icons/Slime Indicator.png" />
+              <img class="rounded" src="./plugin-icons/RTP-Me.png" />
+              <img class="rounded" src="./plugin-icons/SEEEEDS.png" />
+            </div>
+          </div>
+
+          <script>
+            var copy = document.querySelector(".logos-slide").cloneNode(true);
+            document.querySelector(".logos").appendChild(copy);
+          </script>
+        </section>
 
         <section class="mb-5">
             <h2 class="mb-3">Plugin List</h2>
