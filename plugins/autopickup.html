@@ -24,6 +24,13 @@
         }
     </style>
     
+    <style>
+        .btn {
+          display: block; /* Ensure each button is on its own line */
+          margin-bottom: 10px; /* Add spacing between buttons */
+        }
+      </style>
+
 </head>
 <body>
     
@@ -93,26 +100,46 @@
             <h1 class="display-4"><img class="rounded" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069"> AutoPickup</h1>
             <p class="lead">Automatically pickup blocks that you mine! If a block drops XP you get that too!</p>
 
-            <a href="https://www.spigotmc.org/resources/autopickup-1-21-support.70157/history" target="_blank" class="btn btn-success">Download Version: <span id="version-badge" class="badge rounded-pill bg-dark">Loading...</span></a>
-            <a href="https://github.com/MrButtersDEV/AutoPickup/tree/master" target="_blank" class="btn btn-dark">View on Github</a>
-            <a href="https://www.spigotmc.org/resources/70157/" target="_blank" class="btn btn-warning">View on Spigot</a>
-            <a href="https://hangar.papermc.io/MrButtersDev/AutoPickup" target="_blank" class="btn btn-info">View on Hanger</a>
         </header>
 
-        <section class="mb-5">
-            <h2 class="mb-3">Features</h2>
-            <ul>
-                <li>Automatically pickup blocks & exp.</li>
-                <li>Supports mob drops & entity exp.</li>
-                <li>Auto smelt for blocks.</li>
-                <li>Stays enabled on relog/server restart.</li>
-                <li>Custom Messages w/ Hex color support <kbd>&amp#00AAFF</kbd>.</li>
-                <li>Disable permission checks.</li>
-            </ul>
+        <section class="mb-3">
+            <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <h2 class="mb-3">Features</h2>
+                    <ul>
+                        <li>Automatically pickup blocks & exp.</li>
+                        <li>Supports mob drops & entity exp.</li>
+                        <li>Auto smelt for blocks.</li>
+                        <li>Stays enabled on relog/server restart.</li>
+                        <li>Custom Messages w/ Hex color support <kbd>&amp#00AAFF</kbd>.</li>
+                        <li>Disable permission checks.</li>
+                    </ul>
+                  </div>
+                  <div class="col">
+                    <h2 class="mb-3">Links</h2>
+                    <a href="https://www.spigotmc.org/resources/autopickup-1-21-support.70157/history" target="_blank" class="btn btn-success">Download Version: <span id="version-badge" class="badge rounded-pill bg-dark">Loading...</span></a>
+                    <br>
+                    <p>
+                    <a href="https://github.com/MrButtersDEV/AutoPickup/tree/master" target="_blank" class="btn btn-dark">View on Github</a>
+                    <br>
+                    <a href="https://www.spigotmc.org/resources/70157/" target="_blank" class="btn btn-warning">View on Spigot</a>
+                    <br>
+                    <a href="https://hangar.papermc.io/MrButtersDev/AutoPickup" target="_blank" class="btn btn-info">View on Hanger</a>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                      <h2>Commands and Permissions</h2>
+                    </div>
+                    <div class="col">
+                        <div id="feedback" class="mt-3 text-success" style="display: none; font-size: small;">Command copied to clipboard!</div>
+                  </div>
+              </div>
+
         </section>
 
         <section class="mb-5">
-            <h2 class="mb-3">Commands and Permissions</h2>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -121,7 +148,7 @@
                         <th>Permission</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-middle">
                     <tr>
                         <td>/auto</td>
                         <td>Toggles AutoPickup (blocks) on or off.</td>
@@ -159,7 +186,50 @@
                     </tr>
                 </tbody>
             </table>
+            <label for="basic-url" class="form-label"><b>Luckperms Integration:</b></label>
+            <div class="input-group">
+                <span class="input-group-text">Group</span>
+                <input id="groupInput" type="text" class="form-control" placeholder="type groupname here..." aria-label="type groupname here...">
+                <span class="input-group-text">Permission</span>
+                <select id="permDropdown" class="form-select" aria-label="Select Permission">
+                  <option selected>Choose...</option>
+                  <option value="autopickup.pickup.mined">autopickup.pickup.mined</option>
+                  <option value="autopickup.pickup.dropped">autopickup.pickup.dropped</option>
+                  <option value="autopickup.auto.smelt">autopickup.auto.smelt</option>
+                  <option value="autopickup.admin">autopickup.admin</option>
+                  <option value="autopickup.pickup.mined.autoenabled">autopickup.pickup.mined.autoenabled</option>
+                  <option value="autopickup.pickup.entities.autoenabled">autopickup.pickup.entities.autoenabled</option>
+                  <option value="autopickup.pickup.mined.autosmelt.autoenabled">autopickup.pickup.mined.autosmelt.autoenabled</option>
+                </select>
+              </div>
         </section>
+
+        <script>
+            document.getElementById('permDropdown').addEventListener('change', function () {
+              const groupName = document.getElementById('groupInput').value.trim();
+              const permName = this.value;
+        
+              if (this.selectedIndex === 0) {
+                return; // Do nothing if "Choose..." is selected.
+              }
+        
+              if (!groupName) {
+                alert('Please enter a group name before selecting a permission.');
+                this.selectedIndex = 0; // Reset to "Choose..." if no group name is provided.
+                return;
+              }
+        
+              const command = `/lp group ${groupName} permission set ${permName} true`;
+              navigator.clipboard.writeText(command).then(() => {
+                const feedback = document.getElementById('feedback');
+                feedback.textContent = `Command "${command}" copied to clipboard!`;
+                feedback.style.display = 'block';
+                setTimeout(() => feedback.style.display = 'none', 2000); // Hide feedback after 2 seconds.
+              }).catch(err => {
+                alert('Failed to copy command to clipboard: ' + err);
+              });
+            });
+          </script>
 
         <section class="mb-5">
             <h2 class="mb-3">PlaceholderAPI Placeholders</h2>
