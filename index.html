@@ -4,192 +4,338 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MrButtersDev</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="https://avatars.githubusercontent.com/u/24533643?s=40&v=4">
 
-    <meta property="og:image" content="https://avatars.githubusercontent.com/u/24533643?s=40&v=4"> 
-    <meta name="theme-color" content="#014d80"> 
-    <meta name="twitter:description" content="Website made for MrButtersDev. This site contains useful tools, resources, and more about the development projects and services offered by MrButters."> 
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/24533643?s=40&v=4">
+    <meta name="theme-color" content="#014d80">
+    <meta name="twitter:description" content="Website made for MrButtersDev. This site contains useful tools, resources, and more about the development projects and services offered by MrButters.">
     <meta property="og:description" content="Website made for MrButtersDev. This site contains useful tools, resources, and more about the development projects and services offered by MrButters.">
-    <meta property="og:site_name" content="MrButtersDev - Development Tools and Resources"> 
+    <meta property="og:site_name" content="MrButtersDev - Development Tools and Resources">
     <meta name="twitter:site" content="MrButtersDev">
     <meta content="https://mrbutters.dev/index.html" property="og:url" />
 
     <style>
-      .navbar-gradient {
-          position: relative;
-      }
+        /* Custom CSS for gradient effect on Navbar */
+        .navbar-gradient {
+            position: relative;
+        }
 
-      .navbar-gradient::after {
-          content: ""; /* Creates the pseudo-element */
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 5px; /* Height of the gradient */
-          background: linear-gradient(to right, rgb(33, 37, 41), teal, blue, red, gold); /* Left-to-right gradient */
-          z-index: 1; /* Ensures it appears above the background but below other content */
-      }
+        .navbar-gradient::after {
+            content: ""; /* Creates the pseudo-element */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px; /* Height of the gradient */
+            background: linear-gradient(to right, #212529, #008080, #0000FF, #FF0000, #FFD700); /* Left-to-right gradient */
+            z-index: 1; /* Ensures it appears above the background but below other content */
+        }
 
-    @keyframes slide {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(-100%);
-      }
-    } 
+        /* Custom CSS for auto-scrolling logos */
+        @keyframes slide {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                /* Translate by 50% of the combined width, which is the full width of the original set */
+                transform: translateX(-50%);
+            }
+        }
 
-    .logos {
-      overflow: hidden;
-      padding: 15px 0;
-      background: white;
-      white-space: nowrap;
-      position: relative;
-    }
+        .logos {
+            overflow: hidden;
+            padding: 15px 0;
+            background: white;
+            /* white-space: nowrap; - Removed, as flexbox handles this more directly */
+            position: relative;
+        }
 
-    .logos:before,
-    .logos:after {
-      position: absolute;
-      top: 0;
-      width: 250px;
-      height: 100%;
-      content: "";
-      z-index: 2;
-    }
+        .logos:before,
+        .logos:after {
+            position: absolute;
+            top: 0;
+            width: 250px; /* Fade width */
+            height: 100%;
+            content: "";
+            z-index: 2;
+        }
 
-    .logos:before {
-      left: 0;
-      background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
-    }
+        .logos:before {
+            left: 0;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
+        }
 
-    .logos:after {
-      right: 0;
-      background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
-    }
+        .logos:after {
+            right: 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
+        }
 
-    .logos:hover .logos-slide {
-      animation-play-state: paused;
-    }
+        .logos:hover .logos-slide {
+            animation-play-state: paused;
+        }
 
-    .logos-slide {
-      display: inline-block;
-      animation: 35s slide infinite linear;
-    }
+        .logos-slide {
+            display: flex; /* Use flexbox for horizontal layout */
+            flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
+            align-items: center; /* Vertically align items in the center */
+            animation: 35s slide infinite linear; /* Animation duration and type */
+            width: max-content; /* Ensure the container is wide enough for all content */
+        }
+        /* flex-shrink-0 on img elements to prevent them from shrinking within the flex container */
+        .logos-slide img {
+            flex-shrink: 0;
+        }
 
-    .logos-slide img {
-      height: 50px;
-      margin: 0 40px;
-    }
 
-  </style>
+        /* Custom style for active nav link underline, if desired */
+        .nav-link.active::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: currentColor; /* Matches text color */
+            transform: scaleX(0);
+            transition: transform 0.3s ease-out;
+        }
 
+        .nav-link.active:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Smooth scroll for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
-<body>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <nav class="navbar navbar-gradient navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand px-3" href="#">
-            <img src="https://avatars.githubusercontent.com/u/24533643?s=40&v=4" width="30" height="30" class="rounded d-inline-block align-top" alt="">
+<body class="font-inter bg-gray-50 text-gray-800">
+<!-- Navbar Section -->
+<nav class="navbar-gradient bg-gray-900 text-white p-4 shadow-lg rounded-b-lg">
+    <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center">
+        <a class="flex items-center text-xl font-semibold mb-3 lg:mb-0" href="#">
+            <img src="https://avatars.githubusercontent.com/u/24533643?s=40&v=4" width="30" height="30" class="rounded-full mr-2" alt="MrButtersDev Logo">
             MrButters.Dev
         </a>
-      
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button class="lg:hidden text-white focus:outline-none" onclick="document.getElementById('navbarSupportedContent').classList.toggle('hidden')">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Home</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="about.html">About</a>
-              </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Plugins
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="./plugins/autopickup.html"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069"> AutoPickup <span class="badge text-bg-info">Popular</span></a></li>
-                <li><a class="dropdown-item" href="./plugins/silkyspawnerslite.html"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/76/76103.jpg?1584323673"> SilkySpawnersLITE <span class="badge text-bg-info">Popular</span></a></li>
-                <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/litespawners.107576/" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/107/107576.jpg?1674536623"> LiteSpawners</a></li>
-                <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/wax-indicator.93197/" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/93/93197.jpg?1623425764"> Wax Indicator</a></li>
-                <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/slime-indicator.93368/" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/93/93368.jpg?1623813430"> Slime Indicator</a></li>
-                <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/rtp-me.79718/" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/79/79718.jpg?1591331205"> RTP-Me</a></li>
-                <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/seeeeds-crop-protection-from-premature-harvesting.79662/" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/79/79662.jpg?1591223408"> Seeeeds</a></li>
-                <li><a class="dropdown-item disabled" href="#" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/80/80412.jpg?1592624921"> <s>Silky Shops</s></a></li>
-                <li><a class="dropdown-item disabled" href="#" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/69/69823.jpg?1564414434"> <s>SilkySpawners</s></a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a target="_blank" class="dropdown-item" href="https://www.spigotmc.org/resources/authors/mrbuttersdev.159512/">View on Spigot</a></li>
-                <li><a target="_blank" class="dropdown-item" href="https://hangar.papermc.io/MrButtersDev?sort=-updated">View on Hanger</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-    <div class="container mt-5">
-        <header class="text-center mb-4">
-            <h1 class="display-4">Spigot Plugins by MrButtersDev</h1>
-            <p class="lead">Welcome to the official plugin page of <strong>MrButtersDev</strong>! Here you will find a collection of custom Spigot plugins designed to enhance your Minecraft server.</p>
-        </header>
-
-        <section class="mb-3">
-          <div class="logos">
-            <div class="logos-slide">
-              <a href="https://www.spigotmc.org/resources/autopickup-1-21-support.70157/" target="_blank"><img class="rounded" src="./plugin-icons/AutoPickup.png" /></a>
-              <a href="https://www.spigotmc.org/resources/silky-spawners-lite-silk-touch-your-spawners-silk-spawners-1-20-support.76103/" target="_blank"><img class="rounded" src="./plugin-icons/SilkySpawnersLITE.png" /></a>
-              <a href="https://www.spigotmc.org/resources/litespawners.107576/" target="_blank"><img class="rounded" src="./plugin-icons/LiteSpawners.png" /></a>
-              <a href="https://www.spigotmc.org/resources/wax-indicator.93197/" target="_blank"><img class="rounded" src="./plugin-icons/Wax Indicator.png" /></a>
-              <a href="https://www.spigotmc.org/resources/slime-indicator.93368/" target="_blank"><img class="rounded" src="./plugin-icons/Slime Indicator.png" /></a>
-              <a href="https://www.spigotmc.org/resources/rtp-me.79718/" target="_blank"><img class="rounded" src="./plugin-icons/RTP-Me.png" /></a>
-              <a href="https://www.spigotmc.org/resources/seeeeds-crop-protection-from-premature-harvesting.79662/" target="_blank"><img class="rounded" src="./plugin-icons/SEEEEDS.png" /></a>
-            </div>
-          </div>
-
-          <script>
-            var copy = document.querySelector(".logos-slide").cloneNode(true);
-            document.querySelector(".logos").appendChild(copy);
-          </script>
-        </section>
-        
-        <section class="mb-5">
-            <h2 class="mb-3">Plugin List</h2>
-            <ul class="list-group">
-                <li class="list-group-item"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069"> <a href="https://www.spigotmc.org/resources/autopickup-1-21-support.70157/" target="_blank">AutoPickup</a></li>
-                <li class="list-group-item"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/76/76103.jpg?1584323673"> <a href="https://www.spigotmc.org/resources/silky-spawners-lite-silk-touch-your-spawners-silk-spawners-1-20-support.76103/" target="_blank">SilkySpawnersLite</a></li>
-                <li class="list-group-item"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/107/107576.jpg?1674536623"> <a href="https://www.spigotmc.org/resources/litespawners.107576/" target="_blank">LiteSpawners</a></li>
-                <li class="list-group-item"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/93/93197.jpg?1623425764"> <a href="https://www.spigotmc.org/resources/wax-indicator.93197/" target="_blank">Wax Indicator</a></li>
-                <li class="list-group-item"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/93/93368.jpg?1623813430"> <a href="https://www.spigotmc.org/resources/slime-indicator.93368/" target="_blank">Slime Indicator</a></li>
-                <li class="list-group-item"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/79/79718.jpg?1591331205"> <a href="https://www.spigotmc.org/resources/rtp-me.79718/" target="_blank">RTP-Me</a></li>
-                <li class="list-group-item"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/79/79662.jpg?1591223408"> <a href="https://www.spigotmc.org/resources/seeeeds-crop-protection-from-premature-harvesting.79662/" target="_blank">Seeeeds</a></li>
-                <li class="list-group-item text-muted"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/80/80412.jpg?1592624921"> SilkyShop (no longer available)</li>
-                <li class="list-group-item text-muted"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/69/69823.jpg?1564414434"> SilkySpawners (no longer available)</li>
+        <!-- Navigation Links -->
+        <div class="hidden lg:flex flex-grow justify-end items-center" id="navbarSupportedContent">
+            <ul class="flex flex-col lg:flex-row lg:space-x-8 mt-4 lg:mt-0">
+                <li class="nav-item">
+                    <a class="nav-link relative py-2 px-3 text-gray-300 hover:text-white transition duration-300 active flex items-center" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link relative py-2 px-3 text-gray-300 hover:text-white transition duration-300 flex items-center" href="about.html">About</a>
+                </li>
+                <!-- Dropdown with persistent hover -->
+                <li class="nav-item relative group">
+                    <!-- Added id="pluginsDropdown" to the div that acts as the toggle -->
+                    <div id="pluginsDropdown" class="flex items-center py-2 px-3 text-gray-300 hover:text-white cursor-pointer transition duration-300">
+                        Plugins
+                        <svg class="ml-1 w-4 h-4 transform group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <ul class="absolute hidden group-hover:block bg-gray-800 shadow-xl rounded-lg mt-2 w-64 z-20">
+                        <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-t-lg transition duration-200" href="./plugins/autopickup.html"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069" alt="AutoPickup Icon"> AutoPickup <span class="ml-auto bg-blue-500 text-xs font-semibold px-2 py-0.5 rounded-full">Popular</span></a></li>
+                        <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="./plugins/silkyspawnerslite.html"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/76/76103.jpg?1584323673" alt="SilkySpawnersLITE Icon"> SilkySpawnersLITE <span class="ml-auto bg-blue-500 text-xs font-semibold px-2 py-0.5 rounded-full">Popular</span></a></li>
+                        <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/litespawners.107576/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/107/107576.jpg?1674536623" alt="LiteSpawners Icon"> LiteSpawners</a></li>
+                        <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/wax-indicator.93197/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/93/93197.jpg?1623425764" alt="Wax Indicator Icon"> Wax Indicator</a></li>
+                        <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/slime-indicator.93368/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/93/93368.jpg?1623813430" alt="Slime Indicator Icon"> Slime Indicator</a></li>
+                        <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/rtp-me.79718/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/79/79718.jpg?1591331205" alt="RTP-Me Icon"> RTP-Me</a></li>
+                        <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/seeeeds-crop-protection-from-premature-harvesting.79662/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/79/79662.jpg?1591223408" alt="Seeeeds Icon"> Seeeeds</a></li>
+                        <li><a class="flex items-center px-4 py-3 text-gray-500 cursor-not-allowed" href="#" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/80/80412.jpg?1592624921" alt="Silky Shops Icon"> <s>Silky Shops</s></a></li>
+                        <li><a class="flex items-center px-4 py-3 text-gray-500 cursor-not-allowed" href="#" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/69/69823.jpg?1564414434" alt="SilkySpawners Icon"> <s>SilkySpawners</s></a></li>
+                        <li><hr class="border-gray-700"></li>
+                        <li><a target="_blank" class="block px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/authors/mrbuttersdev.159512/">View on Spigot</a></li>
+                        <li><a target="_blank" class="block px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-b-lg transition duration-200" href="https://hangar.papermc.io/MrButtersDev?sort=-updated">View on Hanger</a></li>
+                    </ul>
+                </li>
             </ul>
-        </section>
-
-        <section class="mb-5">
-            <h2 class="mb-3">Get Started</h2>
-            <ol class="list-group list-group-numbered">
-                <li class="list-group-item"><a href="https://www.spigotmc.org/resources/authors/mrbuttersdev.159512/" target="_blank">Download the plugins</a></li>
-                <li class="list-group-item"><a href="https://www.spigotmc.org/resources/authors/mrbuttersdev.159512/" target="_blank">Check out the documentation</a></li>
-                <li class="list-group-item"><a href="https://discord.com/invite/5s89Z3g" target="_blank">Join the community Discord server</a> for support and discussions</li>
-            </ol>
-        </section>
-
-        <section class="mb-5">
-            <h2 class="mb-3">Contribute</h2>
-            <p>If you have ideas, feedback, or bug reports, feel free to open an issue or contribute via pull requests in the <a href="https://github.com/MrButtersDEV" target="_blank">GitHub repository</a>.</p>
-        </section>
-
-        <footer class="text-center mt-5">
-            <hr>
-            <p class="small"> <strong>Note:</strong> All plugins are tested and compatible with the latest Spigot version at the time of release. Please refer to individual plugin documentation for specific requirements or compatibility information.</p>
-            <p><strong>Happy Crafting!</strong></p>
-        </footer>
+        </div>
     </div>
+</nav>
 
+<!-- Main Content Container -->
+<div class="container mx-auto px-4 py-8">
+
+    <!-- Header Section -->
+    <header class="text-center mb-12 py-8 bg-white rounded-lg shadow-md">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">Spigot Plugins by <span class="text-indigo-600">MrButtersDev</span></h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Welcome to the official plugin page of <strong class="font-semibold text-gray-700">MrButtersDev</strong>! Here you will find a collection of custom Spigot plugins designed to enhance your Minecraft server.</p>
+    </header>
+
+    <!-- Featured Plugins Section - Now includes cards -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Featured Plugins</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
+            <!-- AutoPickup Featured Card -->
+            <div class="bg-white rounded-lg shadow-md p-6 flex items-center space-x-4 hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                <img class="rounded-full w-12 h-12 flex-shrink-0 object-cover" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069" alt="AutoPickup icon">
+                <a href="https://www.spigotmc.org/resources/autopickup-1-21-support.70157/" target="_blank" class="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors duration-200">AutoPickup</a>
+            </div>
+            <!-- SilkySpawnersLite Featured Card -->
+            <div class="bg-white rounded-lg shadow-md p-6 flex items-center space-x-4 hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                <img class="rounded-full w-12 h-12 flex-shrink-0 object-cover" src="https://www.spigotmc.org/data/resource_icons/76/76103.jpg?1584323673" alt="SilkySpawnersLITE icon">
+                <a href="https://www.spigotmc.org/resources/silky-spawners-lite-silk-touch-your-spawners-silk-spawners-1-20-support.76103/" target="_blank" class="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors duration-200">SilkySpawnersLite</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- All Plugins Section - Now includes the carousel and other cards -->
+    <section class="mb-12 pb-4">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">All Plugins</h2>
+        <div class="logos bg-white rounded-lg shadow-md border border-gray-200 mb-8"> <!-- Added mb-8 for spacing -->
+            <div class="logos-slide" id="logos-slide">
+                <a href="https://www.spigotmc.org/resources/autopickup-1-21-support.70157/" target="_blank"><img class="rounded-full h-16 w-16 object-cover mx-4 transition-transform hover:scale-105 duration-300" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069" alt="AutoPickup icon" /></a>
+                <a href="https://www.spigotmc.org/resources/silky-spawners-lite-silk-touch-your-spawners-silk-spawners-1-20-support.76103/" target="_blank"><img class="rounded-full h-16 w-16 object-cover mx-4 transition-transform hover:scale-105 duration-300" src="https://www.spigotmc.org/data/resource_icons/76/76103.jpg?1584323673" alt="SilkySpawnersLITE icon" /></a>
+                <a href="https://www.spigotmc.org/resources/litespawners.107576/" target="_blank"><img class="rounded-full h-16 w-16 object-cover mx-4 transition-transform hover:scale-105 duration-300" src="https://www.spigotmc.org/data/resource_icons/107/107576.jpg?1674536623" alt="LiteSpawners icon" /></a>
+                <a href="https://www.spigotmc.org/resources/wax-indicator.93197/" target="_blank"><img class="rounded-full h-16 w-16 object-cover mx-4 transition-transform hover:scale-105 duration-300" src="https://www.spigotmc.org/data/resource_icons/93/93197.jpg?1623425764" alt="Wax Indicator icon" /></a>
+                <a href="https://www.spigotmc.org/resources/slime-indicator.93368/" target="_blank"><img class="rounded-full h-16 w-16 object-cover mx-4 transition-transform hover:scale-105 duration-300" src="https://www.spigotmc.org/data/resource_icons/93/93368.jpg?1623813430" alt="Slime Indicator icon" /></a>
+                <a href="https://www.spigotmc.org/resources/rtp-me.79718/" target="_blank"><img class="rounded-full h-16 w-16 object-cover mx-4 transition-transform hover:scale-105 duration-300" src="https://www.spigotmc.org/data/resource_icons/79/79718.jpg?1591331205" alt="RTP-Me icon" /></a>
+                <a href="https://www.spigotmc.org/resources/seeeeds-crop-protection-from-premature-harvesting.79662/" target="_blank"><img class="rounded-full h-16 w-16 object-cover mx-4 transition-transform hover:scale-105 duration-300" src="https://www.spigotmc.org/data/resource_icons/79/79662.jpg?1591223408" alt="Seeeeds icon" /></a>
+            </div>
+        </div>
+        <script>
+            // Duplicate the logos-slide content for continuous scrolling effect
+            document.addEventListener('DOMContentLoaded', function() {
+                const logosSlide = document.getElementById("logos-slide");
+                if (logosSlide) {
+                    // Clone the *children* of the logos-slide, not the logos-slide div itself
+                    const children = Array.from(logosSlide.children);
+                    children.forEach(child => {
+                        const clone = child.cloneNode(true);
+                        logosSlide.appendChild(clone);
+                    });
+                }
+            });
+        </script>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Plugin Item Card -->
+            <div class="bg-white rounded-lg shadow-md p-6 flex items-center space-x-4 hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                <img class="rounded-full w-12 h-12 flex-shrink-0 object-cover" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069" alt="AutoPickup icon">
+                <a href="https://www.spigotmc.org/resources/autopickup-1-21-support.70157/" target="_blank" class="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors duration-200">AutoPickup</a>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 flex items-center space-x-4 hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                <img class="rounded-full w-12 h-12 flex-shrink-0 object-cover" src="https://www.spigotmc.org/data/resource_icons/76/76103.jpg?1584323673" alt="SilkySpawnersLite icon">
+                <a href="https://www.spigotmc.org/resources/silky-spawners-lite-silk-touch-your-spawners-silk-spawners-1-20-support.76103/" target="_blank" class="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors duration-200">SilkySpawnersLite</a>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 flex items-center space-x-4 hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                <img class="rounded-full w-12 h-12 flex-shrink-0 object-cover" src="https://www.spigotmc.org/data/resource_icons/107/107576.jpg?1674536623" alt="LiteSpawners icon">
+                <a href="https://www.spigotmc.org/resources/litespawners.107576/" target="_blank" class="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors duration-200">LiteSpawners</a>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 flex items-center space-x-4 hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                <img class="rounded-full w-12 h-12 flex-shrink-0 object-cover" src="https://www.spigotmc.org/data/resource_icons/93/93197.jpg?1623425764" alt="Wax Indicator icon">
+                <a href="https://www.spigotmc.org/resources/wax-indicator.93197/" target="_blank" class="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors duration-200">Wax Indicator</a>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 flex items-center space-x-4 hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                <img class="rounded-full w-12 h-12 flex-shrink-0 object-cover" src="https://www.spigotmc.org/data/resource_icons/93/93368.jpg?1623813430" alt="Slime Indicator icon">
+                <a href="https://www.spigotmc.org/resources/slime-indicator.93368/" target="_blank" class="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors duration-200">Slime Indicator</a>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 flex items-center space-x-4 hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                <img class="rounded-full w-12 h-12 flex-shrink-0 object-cover" src="https://www.spigotmc.org/data/resource_icons/79/79718.jpg?1591331205" alt="RTP-Me icon">
+                <a href="https://www.spigotmc.org/resources/rtp-me.79718/" target="_blank" class="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors duration-200">RTP-Me</a>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 flex items-center space-x-4 hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                <img class="rounded-full w-12 h-12 flex-shrink-0 object-cover" src="https://www.spigotmc.org/data/resource_icons/79/79662.jpg?1591223408" alt="Seeeeds icon">
+                <a href="https://www.spigotmc.org/resources/seeeeds-crop-protection-from-premature-harvesting.79662/" target="_blank" class="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors duration-200">Seeeeds</a>
+            </div>
+            <div class="bg-gray-100 rounded-lg shadow-md p-6 flex items-center space-x-4 text-gray-500 cursor-not-allowed">
+                <img class="rounded-full w-12 h-12 flex-shrink-0 object-cover opacity-60" src="https://www.spigotmc.org/data/resource_icons/80/80412.jpg?1592624921" alt="SilkyShop icon">
+                <span class="text-lg font-semibold line-through">SilkyShop (no longer available)</span>
+            </div>
+            <div class="bg-gray-100 rounded-lg shadow-md p-6 flex items-center space-x-4 text-gray-500 cursor-not-allowed">
+                <img class="rounded-full w-12 h-12 flex-shrink-0 object-cover opacity-60" src="https://www.spigotmc.org/data/resource_icons/69/69823.jpg?1564414434" alt="SilkySpawners icon">
+                <span class="text-lg font-semibold line-through">SilkySpawners (no longer available)</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Started Section -->
+    <section class="mb-12 bg-indigo-50 p-8 rounded-lg shadow-inner">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Get Started</h2>
+        <ul class="space-y-4 max-w-xl mx-auto">
+            <li class="flex items-start text-lg text-gray-700">
+                <span class="font-bold text-indigo-600 mr-3 text-xl">1.</span>
+                <a href="https://www.spigotmc.org/resources/authors/mrbuttersdev.159512/" target="_blank" class="text-indigo-600 hover:underline hover:text-indigo-800 transition-colors duration-200">Download the plugins</a>
+            </li>
+            <li class="flex items-start text-lg text-gray-700">
+                <span class="font-bold text-indigo-600 mr-3 text-xl">2.</span>
+                <a href="https://www.spigotmc.org/resources/authors/mrbuttersdev.159512/" target="_blank" class="text-indigo-600 hover:underline hover:text-indigo-800 transition-colors duration-200">Check out the documentation</a>
+            </li>
+            <li class="flex items-start text-lg text-gray-700">
+                <span class="font-bold text-indigo-600 mr-3 text-xl">3.</span>
+                <a href="https://discord.com/invite/5s89Z3g" target="_blank" class="text-indigo-600 hover:underline hover:text-indigo-800 transition-colors duration-200">Join the community Discord server</a> for support and discussions
+            </li>
+        </ul>
+    </section>
+
+    <!-- Contribute Section -->
+    <section class="mb-12 bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Contribute</h2>
+        <p class="text-lg text-gray-700 text-center max-w-2xl mx-auto">If you have ideas, feedback, or bug reports, feel free to open an issue or contribute via pull requests in the <a href="https://github.com/MrButtersDEV" target="_blank" class="text-indigo-600 hover:underline hover:text-indigo-800 transition-colors duration-200">GitHub repository</a>.</p>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="text-center mt-12 py-6 border-t border-gray-200">
+        <p class="text-sm text-gray-500 mb-2"><strong>Note:</strong> All plugins are tested and compatible with the latest Spigot version at the time of release. Please refer to individual plugin documentation for specific requirements or compatibility information.</p>
+        <p class="text-lg font-semibold text-gray-700"><strong>Happy Crafting!</strong></p>
+    </footer>
+</div>
+
+<!-- JavaScript for Mobile Navbar Toggle and Dropdown -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const pluginsDropdownToggle = document.getElementById('pluginsDropdown');
+        // Check if pluginsDropdownToggle exists before accessing nextElementSibling
+        if (pluginsDropdownToggle) {
+            const pluginsDropdownMenu = pluginsDropdownToggle.nextElementSibling; // Get the next sibling (the ul)
+
+            if (pluginsDropdownMenu) {
+                // Toggle dropdown visibility on click for small screens, and on hover for large screens
+                pluginsDropdownToggle.addEventListener('click', function(event) {
+                    // Prevent default link behavior
+                    event.preventDefault();
+                    // Toggle 'hidden' class to show/hide the dropdown menu
+                    pluginsDropdownMenu.classList.toggle('hidden');
+                });
+
+                // Close dropdown if clicked outside
+                document.addEventListener('click', function(event) {
+                    if (!pluginsDropdownToggle.contains(event.target) && !pluginsDropdownMenu.contains(event.target)) {
+                        pluginsDropdownMenu.classList.add('hidden');
+                    }
+                });
+
+                // For larger screens, handle hover behavior
+                const navItem = pluginsDropdownToggle.closest('.nav-item');
+                if (navItem) {
+                    navItem.addEventListener('mouseenter', function() {
+                        if (window.innerWidth >= 1024) { // Only on large screens (Tailwind's 'lg' breakpoint)
+                            pluginsDropdownMenu.classList.remove('hidden');
+                        }
+                    });
+                    navItem.addEventListener('mouseleave', function() {
+                        if (window.innerWidth >= 1024) {
+                            pluginsDropdownMenu.classList.add('hidden');
+                        }
+                    });
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>
