@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MrButtersDev - AutoPickup</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://avatars.githubusercontent.com/u/24533643?s=40&v=4">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:image" content="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069">
+    <meta name="theme-color" content="#ab000e">
+    <meta name="twitter:description" content="Automatically pickup blocks that you mine! If a block drops XP you get that too!">
+    <meta property="og:description" content="Automatically pickup blocks that you mine! If a block drops XP you get that too!">
+    <meta property="og:site_name" content="MrButtersDev - Plugins: AutoPickup">
+    <meta name="twitter:site" content="MrButtersDev">
+    <meta content="https://mrbutters.dev/plugins/autopickup.html" property="og:url" />
+
+    <style>
+        /* Custom CSS for gradient effect on Navbar */
+        .navbar-gradient {
+            position: relative;
+        }
+
+        .navbar-gradient::after {
+            content: ""; /* Creates the pseudo-element */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px; /* Height of the gradient */
+            background: linear-gradient(to right, #212529, #ab000e); /* Left-to-right gradient */
+            z-index: 1; /* Ensures it appears above the background but below other content */
+        }
+
+        /* Custom styling for table to replicate Bootstrap's striped effect with Tailwind */
+        .tailwind-table-striped tbody tr:nth-child(odd) {
+            background-color: #f3f4f6; /* bg-gray-100 */
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50 text-gray-800">
+
+    <script>
+        // Function to fetch the latest version from SpigotMC API
+        document.addEventListener("DOMContentLoaded", function () {
+            const url = "https://api.spigotmc.org/legacy/update.php?resource=70157";
+            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+        
+            fetch(proxyUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    const versionBadge = document.getElementById("version-badge");
+                    if (versionBadge) {
+                        versionBadge.textContent = data;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching the data:", error);
+                    const versionBadge = document.getElementById("version-badge");
+                    if (versionBadge) {
+                        versionBadge.textContent = "Error";
+                    }
+                });
+        });
+    </script>
+
+    <!-- Navbar Section -->
+    <nav class="navbar-gradient bg-gray-900 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center">
+            <a class="flex items-center text-xl font-semibold mb-3 lg:mb-0" href="../index.html">
+                <img src="https://avatars.githubusercontent.com/u/24533643?s=40&v=4" width="30" height="30" class="rounded-full mr-2" alt="MrButtersDev Logo">
+                MrButters.Dev
+            </a>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="lg:hidden text-white focus:outline-none" onclick="document.getElementById('navbarSupportedContent').classList.toggle('hidden')">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="hidden lg:flex flex-grow justify-end items-center" id="navbarSupportedContent">
+                <ul class="flex flex-col lg:flex-row lg:space-x-8 mt-4 lg:mt-0">
+                    <li class="nav-item">
+                        <a class="nav-link relative py-2 px-3 text-gray-300 hover:text-white transition duration-300 flex items-center" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link relative py-2 px-3 text-gray-300 hover:text-white transition duration-300 flex items-center" href="../about.html">About</a>
+                    </li>
+                    <!-- Dropdown with persistent hover -->
+                    <li class="nav-item relative group">
+                        <div id="pluginsDropdown" class="flex items-center py-2 px-3 text-white cursor-pointer transition duration-300 active">
+                            Plugins
+                            <svg class="ml-1 w-4 h-4 transform group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <ul class="absolute hidden group-hover:block bg-gray-800 shadow-xl rounded-lg mt-2 w-64 z-20">
+                            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-t-lg transition duration-200" href="#"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069" alt="AutoPickup Icon"> AutoPickup <span class="ml-auto bg-blue-500 text-xs font-semibold px-2 py-0.5 rounded-full">Popular</span></a></li>
+                            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="./silkyspawnerslite.html"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/76/76103.jpg?1584323673" alt="SilkySpawnersLITE Icon"> SilkySpawnersLITE <span class="ml-auto bg-blue-500 text-xs font-semibold px-2 py-0.5 rounded-full">Popular</span></a></li>
+                            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/litespawners.107576/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/107/107576.jpg?1674536623" alt="LiteSpawners Icon"> LiteSpawners</a></li>
+                            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/wax-indicator.93197/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/93/93197.jpg?1623425764" alt="Wax Indicator Icon"> Wax Indicator</a></li>
+                            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/slime-indicator.93368/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/93/93368.jpg?1623813430" alt="Slime Indicator Icon"> Slime Indicator</a></li>
+                            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/rtp-me.79718/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/79/79718.jpg?1591331205" alt="RTP-Me Icon"> RTP-Me</a></li>
+                            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/seeeeds-crop-protection-from-premature-harvesting.79662/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/79/79662.jpg?1591223408" alt="Seeeeds Icon"> Seeeeds</a></li>
+                            <li><a class="flex items-center px-4 py-3 text-gray-500 cursor-not-allowed" href="#" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/80/80412.jpg?1592624921" alt="Silky Shops Icon"> <s>Silky Shops</s></a></li>
+                            <li><a class="flex items-center px-4 py-3 text-gray-500 cursor-not-allowed" href="#" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/69/69823.jpg?1564414434" alt="SilkySpawners Icon"> <s>SilkySpawners</s></a></li>
+                            <li><hr class="border-gray-700"></li>
+                            <li><a target="_blank" class="block px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/authors/mrbuttersdev.159512/">View on Spigot</a></li>
+                            <li><a target="_blank" class="block px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-b-lg transition duration-200" href="https://hangar.papermc.io/MrButtersDev?sort=-updated">View on Hanger</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12 py-8 bg-white rounded-lg shadow-md">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight flex items-center justify-center">
+                <img class="rounded-full w-16 h-16 mr-4 object-cover" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069" alt="AutoPickup Icon">
+                AutoPickup
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Automatically pickup blocks that you mine! If a block drops XP you get that too!</p>
+        </header>
+
+        <section class="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Features</h2>
+                <ul class="list-disc list-inside space-y-2 text-lg text-gray-700">
+                    <li>Automatically pickup blocks & exp.</li>
+                    <li>Supports mob drops & entity exp.</li>
+                    <li>Auto smelt for blocks.</li>
+                    <li>Stays enabled on relog/server restart.</li>
+                    <li>Custom Messages w/ Hex color support <code class="bg-gray-200 p-1 rounded font-mono text-sm">&amp#00AAFF</code>.</li>
+                    <li>Disable permission checks.</li>
+                </ul>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Links</h2>
+                <div class="space-y-4">
+                    <a href="https://www.spigotmc.org/resources/autopickup-1-21-support.70157/history" target="_blank" class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                        Download Version: <span id="version-badge" class="ml-2 px-3 py-1 bg-gray-800 text-white text-xs font-semibold rounded-full">Loading...</span>
+                    </a>
+                    <a href="https://github.com/MrButtersDEV/AutoPickup/tree/master" target="_blank" class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition duration-150 ease-in-out">
+                        View on Github
+                    </a>
+                    <a href="https://www.spigotmc.org/resources/70157/" target="_blank" class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-gray-900 bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300 transition duration-150 ease-in-out">
+                        View on Spigot
+                    </a>
+                    <a href="https://hangar.papermc.io/MrButtersDev/AutoPickup" target="_blank" class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transition duration-150 ease-in-out">
+                        View on Hanger
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Commands and Permissions</h2>
+            <div id="feedback" class="mt-3 text-green-600 font-medium text-sm hidden"></div>
+
+            <table class="w-full text-left border-collapse tailwind-table-striped">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-3 px-4 border-b border-gray-200 text-gray-700 font-semibold">Command</th>
+                        <th class="py-3 px-4 border-b border-gray-200 text-gray-700 font-semibold">Description</th>
+                        <th class="py-3 px-4 border-b border-gray-200 text-gray-700 font-semibold">Permission</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-3 px-4 border-b border-gray-200">/auto</td>
+                        <td class="py-3 px-4 border-b border-gray-200">Toggles AutoPickup (blocks) on or off.</td>
+                        <td class="py-3 px-4 border-b border-gray-200">autopickup.pickup.mined</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4 border-b border-gray-200">/drops</td>
+                        <td class="py-3 px-4 border-b border-gray-200">Toggles AutoPickup (mob drops) on or off.</td>
+                        <td class="py-3 px-4 border-b border-gray-200">autopickup.pickup.entities</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4 border-b border-gray-200">/autosmelt</td>
+                        <td class="py-3 px-4 border-b border-gray-200">Toggles Auto Smelt on or off.</td>
+                        <td class="py-3 px-4 border-b border-gray-200">autopickup.pickup.mined.autosmelt</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4 border-b border-gray-200">/auto reload</td>
+                        <td class="py-3 px-4 border-b border-gray-200">Reloads the config.</td>
+                        <td class="py-3 px-4 border-b border-gray-200">autopickup.admin</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4 border-b border-gray-200 italic">On Join</td>
+                        <td class="py-3 px-4 border-b border-gray-200">Automatically force enables auto when a player joins the server</td>
+                        <td class="py-3 px-4 border-b border-gray-200">autopickup.pickup.mined.autoenabled</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4 border-b border-gray-200 italic">On Join</td>
+                        <td class="py-3 px-4 border-b border-gray-200">Automatically force enables auto drops when a player joins the server</td>
+                        <td class="py-3 px-4 border-b border-gray-200">autopickup.pickup.entities.autoenabled</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4 border-b border-gray-200 italic">On Join</td>
+                        <td class="py-3 px-4 border-b border-gray-200">Automatically force enables auto smelt when a player joins the server</td>
+                        <td class="py-3 px-4 border-b border-gray-200">autopickup.pickup.mined.autosmelt.autoenabled</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <label for="groupInput" class="block text-lg font-medium text-gray-700 mt-8 mb-2"><b>Luckperms Integration:</b></label>
+            <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                <div class="flex-1">
+                    <label for="groupInput" class="sr-only">Group Name</label>
+                    <input id="groupInput" type="text" class="block w-full rounded-md border-gray-300 bg-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5 text-gray-900" placeholder="type group name here...">
+                </div>
+                <div class="flex-1">
+                    <label for="permDropdown" class="sr-only">Select Permission</label>
+                    <select id="permDropdown" class="block w-full rounded-md border-gray-300 bg-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5 text-gray-900">
+                        <option value="" selected>Choose Permission...</option>
+                        <option value="autopickup.pickup.mined">autopickup.pickup.mined</option>
+                        <option value="autopickup.pickup.dropped">autopickup.pickup.dropped</option>
+                        <option value="autopickup.auto.smelt">autopickup.auto.smelt</option>
+                        <option value="autopickup.admin">autopickup.admin</option>
+                        <option value="autopickup.pickup.mined.autoenabled">autopickup.pickup.mined.autoenabled</option>
+                        <option value="autopickup.pickup.entities.autoenabled">autopickup.pickup.entities.autoenabled</option>
+                        <option value="autopickup.pickup.mined.autosmelt.autoenabled">autopickup.pickup.mined.autosmelt.autoenabled</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            document.getElementById('permDropdown').addEventListener('change', function () {
+                const groupName = document.getElementById('groupInput').value.trim();
+                const permName = this.value;
+                const feedbackElement = document.getElementById('feedback');
+        
+                if (!permName) { // If "Choose Permission..." is selected (empty value)
+                    return;
+                }
+        
+                if (!groupName) {
+                    feedbackElement.textContent = 'Please enter a group name before selecting a permission.';
+                    feedbackElement.classList.remove('hidden', 'text-green-600');
+                    feedbackElement.classList.add('text-red-600');
+                    // Do not reset dropdown here, let user choose a group name
+                    return;
+                }
+        
+                const command = `/lp group ${groupName} permission set ${permName} true`;
+                
+                // Using document.execCommand('copy') for better iframe compatibility
+                const tempInput = document.createElement('textarea');
+                tempInput.value = command;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                    feedbackElement.textContent = `Command "${command}" copied to clipboard!`;
+                    feedbackElement.classList.remove('hidden', 'text-red-600');
+                    feedbackElement.classList.add('text-green-600');
+                } catch (err) {
+                    feedbackElement.textContent = 'Failed to copy command to clipboard. Please copy manually: ' + command;
+                    feedbackElement.classList.remove('hidden', 'text-green-600');
+                    feedbackElement.classList.add('text-red-600');
+                    console.error('Failed to copy command: ', err);
+                } finally {
+                    document.body.removeChild(tempInput);
+                    setTimeout(() => {
+                        feedbackElement.classList.add('hidden');
+                    }, 3000); // Hide feedback after 3 seconds
+                }
+            });
+        </script>
+
+<script>
+function copyToClipboard(id) {
+    const text = document.getElementById(id).innerText;
+
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+
+    try {
+        document.execCommand("copy");
+        alert(`Copied: ${text}`);
+    } catch (err) {
+        alert("Failed to copy.");
+        console.error(err);
+    }
+
+    document.body.removeChild(textarea);
+}
+</script>
+
+<script>
+function copyToClipboardText(el) {
+    const text = el.innerText;
+
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+
+    try {
+        document.execCommand("copy");
+        el.title = "Copied!";
+        setTimeout(() => el.title = "Click to copy", 1000);
+    } catch (err) {
+        console.error("Copy failed", err);
+    }
+
+    document.body.removeChild(textarea);
+}
+</script>
+
+
+<section class="mb-12 bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">PlaceholderAPI Placeholders</h2>
+<ul class="list-disc list-inside space-y-4 text-lg text-gray-700">
+    <li class="flex items-start space-x-2">
+        <div onclick="copyToClipboardText(this)" title="Click to copy" class="cursor-pointer flex items-center bg-gray-200 px-2 py-1 rounded font-mono text-sm text-gray-800 hover:bg-gray-300 transition select-none">
+            %autopickup_autoenabled%
+        </div>
+        <span>Shows if AutoPickup is enabled for blocks.</span>
+    </li>
+    <li class="flex items-start space-x-2">
+        <div onclick="copyToClipboardText(this)" title="Click to copy" class="cursor-pointer flex items-center bg-gray-200 px-2 py-1 rounded font-mono text-sm text-gray-800 hover:bg-gray-300 transition select-none">
+            %autopickup_dropsenabled%
+        </div>
+        <span>Shows if AutoPickup is enabled for mob drops.</span>
+    </li>
+    <li class="flex items-start space-x-2">
+        <div onclick="copyToClipboardText(this)" title="Click to copy" class="cursor-pointer flex items-center bg-gray-200 px-2 py-1 rounded font-mono text-sm text-gray-800 hover:bg-gray-300 transition select-none">
+            %autopickup_autosmeltenabled%
+        </div>
+        <span>Shows if Auto Smelt is enabled.</span>
+    </li>
+</ul>
+
+</section>
+
+
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">bStats</h2>
+            <div class="flex justify-center">
+                <img src="https://bstats.org/signatures/bukkit/AutoPickup.svg" alt="bStats Chart" class="max-w-full h-auto rounded-lg shadow-inner">
+            </div>
+        </section>
+
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Config Files</h2>
+            <div class="space-y-6">
+                <div>
+                    <h5 class="text-xl font-semibold text-gray-900 mb-2">config.yml</h5>
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-md text-sm overflow-x-auto shadow-inner">
+ConfigVersion: 1.4
+#############################################################################################################
+#            _          _____   _          _                                                                #
+#    /\      _  _   | |     | __ \  (_)      | | __  _  _   _ __                                            #
+#   /  \    | | | | | __|  / _ \  | |__) |  _   ___  | |/ / | | | | | '_ \                                  #
+#  / /\ \   | | | | | __|  / _ \  | ___/   | | / __| | |/ / | | | | | '_ \                                  #
+# / ____ \  | |_| | | |_   | (_) | | |      | | | (__  |   <  | |_| | | |_) |                               #
+#/ ____ \  | |_| | | |_   | (_) | | |      | | | (__  |   <  | |_| | | |_) |                                #
+# /_/    \_\  \__,_|  \__|  \___/  |_|      |_|  \___| |_|\_\  \__,_| | .__/                                #
+#                                                                                                           #
+#                                                                                                           #
+#                                                                                                           #
+#                                                                                                           #
+#############################################################################################################
+# By: BUTTERFIELD8 & The Zircon Network                                                                     #
+# Discord: https://discord.gg/ncHH4FP                                                                       #
+#############################################################################################################
+
+#Message Prefix
+msgPrefix: "&8[&5Auto&d&oPickup&8]"
+
+#Toggle Message - /auto
+msgAutoPickupEnable: "&7You have&a enabled &7auto pickup."
+msgAutoPickupDisable: "&7You have&c disabled &7auto pickup."
+
+#Toggle Message - /autosmelt
+msgAutoSmeltEnable: "&7You have&a enabled &7auto smelt."
+msgAutoSmeltDisable: "&7You have&c disabled &7auto smelt."
+
+#Toggle Message - /drops
+msgAutoMobDropsEnable: "&7You have&a enabled &7auto drops."
+msgAutoMobDropsDisable: "&7You have&c disabled &7auto drops."
+
+#Aditional toggling messages
+msgAutoEnable: "&7Auto pickup has been automatically&a enabled&7."
+doAutoEnableMSG: true
+msgEnabledJoinMSG: "&7Auto pickup has been automatically&a enabled&7."
+doEnabledOnJoinMSG: true
+
+#Reload Config Message
+msgReload: "&cReloaded Config"
+
+#Fully Inventory Message
+msgFullInv: "&7Your inventory is full!"
+doFullInvMSG: true
+titlebar:
+    doTitleBar: false
+    line1: "&cWarning"
+    line2: "&7Inventory is full!"
+
+#This is most useful for prison servers! -- This setting is not normally recommended
+#This feature voids any extra blocks broken when /auto is enabled and the inventory is full!
+voidOnFullInv: false
+
+#If set to true AutoPickup will ignore XP drop calculations from when using a silk spawner plugin.
+usingSilkSpawnerPlugin: true
+
+#If set to true mobs will naturally drop XP
+ignoreMobXPDrops: false
+
+#Plase does not have permission
+msgNoperms: "&cYou don't have permission to use this command"
+
+#Require Permissions | Do players require permission to run commands?
+requirePerms:
+    autopickup: true
+    auto-reload: true
+                    </pre>
+                </div>
+                <div>
+                    <h5 class="text-xl font-semibold text-gray-900 mb-2">blacklist.yml</h5>
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-md text-sm overflow-x-auto shadow-inner">
+#############################################################################################################
+#            _          _____   _          _                                                                #
+#    /\      _  _   | |     | __ \  (_)      | |     B L A C K L I S T . Y M L                              #
+#   /  \    | | | | | __|  / _ \  | |__) |  _   ___  | | __  _  _   _ __                                    #
+#  / /\ \   | | | | | __|  / _ \  | ___/   | | / __| | |/ / | | | | | '_ \                                  #
+# / ____ \  | |_| | | |_   | (_) | | |      | | | (__  |   <  | |_| | | |_) |                               #
+# /_/    \_\  \__,_|  \__|  \___/  |_|      |_|  \___| |_|\_\  \__,_| | .__/                                #
+#                                                                                                           #
+#                                                                                                           #
+#                                                                                                           #
+#############################################################################################################
+# By: BUTTERFIELD8 & The Zircon Network                                                                     #
+# Discord: https://discord.gg/ncHH4FP                                                                       #
+# Material Names: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html                         #
+# Entity Names: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html                  #
+#############################################################################################################
+
+#Set to "true" if you would like to enable the blacklist
+doBlacklisted: false
+doBlacklistedEntities: true
+doAutoSmeltBlacklist: false
+
+#By listing blocks below you are adding them to the blacklist therefore causing them to drop to the ground.
+Blacklisted:
+    - DIRT
+    - SAND
+
+BlacklistedEntities:
+    - PLAYER
+
+BlacklistedWorlds:
+    - example
+
+#These materials will be ignored when auto smelt is enabled. Only items that can be smelted should be added.
+AutoSmeltBlacklist:
+    - OAK_LOG
+                    </pre>
+                </div>
+                <div>
+                    <h5 class="text-xl font-semibold text-gray-900 mb-2">papi.yml</h5>
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-md text-sm overflow-x-auto shadow-inner">
+#############################################################################################################
+#            _          _____   _          _                                                                #
+#    /\      _  _   | |     | __ \  (_)      | |         P A P I . Y M L                                    #
+#   /  \    | | | | | __|  / _ \  | |__) |  _   ___  | | __  _  _   _ __                                    #
+#  / /\ \   | | | | | __|  / _ \  | ___/   | | / __| | |/ / | | | | | '_ \                                  #
+# / ____ \  | |_| | | |_   | (_) | | |      | | | (__  |   <  | |_| | | |_) |                               #
+# /_/    \_\  \__,_|  \__|  \___/  |_|      |_|  \___| |_|\_\  \__,_| | .__/                                #
+#                                                                                                           #
+#                                                                                                           #
+#                                                                                                           #
+#############################################################################################################
+# By: BUTTERFIELD8 & The Zircon Network                                                                     #
+# Discord: https://discord.gg/ncHH4FP                                                                       #
+#############################################################################################################
+papi:
+    enabled:
+    true: "&aEnabled"
+    false: "&cDisabled"
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-12 py-6 border-t border-gray-200">
+            <p class="text-sm text-gray-500 mb-2"><strong>Note:</strong> Ensure compatibility with your server version before installing.</p>
+            <p class="text-lg font-semibold text-gray-700"><strong>Happy Crafting!</strong></p>
+        </footer>
+    </div>
+
+    <!-- JavaScript for Mobile Navbar Toggle and Dropdown -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pluginsDropdownToggle = document.getElementById('pluginsDropdown');
+            // Check if pluginsDropdownToggle exists before accessing nextElementSibling
+            if (pluginsDropdownToggle) {
+                const pluginsDropdownMenu = pluginsDropdownToggle.nextElementSibling; // Get the next sibling (the ul)
+
+                if (pluginsDropdownMenu) {
+                    // Toggle dropdown visibility on click for small screens, and on hover for large screens
+                    pluginsDropdownToggle.addEventListener('click', function(event) {
+                        // Prevent default link behavior
+                        event.preventDefault();
+                        // Toggle 'hidden' class to show/hide the dropdown menu
+                        pluginsDropdownMenu.classList.toggle('hidden');
+                    });
+
+                    // Close dropdown if clicked outside
+                    document.addEventListener('click', function(event) {
+                        if (!pluginsDropdownToggle.contains(event.target) && !pluginsDropdownMenu.contains(event.target)) {
+                            pluginsDropdownMenu.classList.add('hidden');
+                        }
+                    });
+
+                    // For larger screens, handle hover behavior
+                    const navItem = pluginsDropdownToggle.closest('.nav-item');
+                    if (navItem) {
+                        navItem.addEventListener('mouseenter', function() {
+                            if (window.innerWidth >= 1024) { // Only on large screens (Tailwind's 'lg' breakpoint)
+                                pluginsDropdownMenu.classList.remove('hidden');
+                            }
+                        });
+                        navItem.addEventListener('mouseleave', function() {
+                            if (window.innerWidth >= 1024) {
+                                pluginsDropdownMenu.classList.add('hidden');
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
