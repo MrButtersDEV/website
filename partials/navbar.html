@@ -1,0 +1,64 @@
+<!-- navbar.html -->
+<nav class="navbar-gradient bg-gray-900 text-white p-4 shadow-lg rounded-b-lg">
+  <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center">
+    <a class="flex items-center text-xl font-semibold mb-3 lg:mb-0" href="index.html">
+      <img src="https://avatars.githubusercontent.com/u/24533643?s=40&v=4" width="30" height="30" class="rounded-full mr-2" alt="MrButtersDev Logo">
+      MrButters.Dev
+    </a>
+
+    <!-- Mobile Menu Toggle Button -->
+    <button class="lg:hidden text-white focus:outline-none" onclick="document.getElementById('navbarSupportedContent').classList.toggle('hidden')">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+      </svg>
+    </button>
+
+    <!-- Navigation Links -->
+    <div class="hidden lg:flex flex-grow justify-end items-center" id="navbarSupportedContent">
+      <ul class="flex flex-col lg:flex-row lg:space-x-8 mt-4 lg:mt-0">
+        <li class="nav-item">
+          <a class="nav-link relative py-2 px-3 hover:text-white transition duration-300 flex items-center" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link relative py-2 px-3 text-gray-300 hover:text-white transition duration-300 flex items-center" href="about.html">About</a>
+        </li>
+        <li class="nav-item relative group">
+          <div id="pluginsDropdown" class="flex items-center py-2 px-3 text-gray-300 hover:text-white cursor-pointer transition duration-300">
+            Plugins
+            <svg class="ml-1 w-4 h-4 transform group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+          <ul class="absolute bg-gray-800 shadow-xl hidden rounded-lg w-64 z-20 plugin-dropdown-menu group-hover:block">
+            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-t-lg transition duration-200" href="./plugins/autopickup.html"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069"> AutoPickup <span class="ml-auto bg-blue-500 text-xs font-semibold px-2 py-0.5 rounded-full">Popular</span></a></li>
+            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="./plugins/silkyspawnerslite.html"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/76/76103.jpg?1584323673"> SilkySpawnersLITE <span class="ml-auto bg-blue-500 text-xs font-semibold px-2 py-0.5 rounded-full">Popular</span></a></li>
+            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/litespawners.107576/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/107/107576.jpg?1674536623"> LiteSpawners</a></li>
+            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/wax-indicator.93197/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/93/93197.jpg?1623425764"> Wax Indicator</a></li>
+            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/slime-indicator.93368/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/93/93368.jpg?1623813430"> Slime Indicator</a></li>
+            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/rtp-me.79718/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/79/79718.jpg?1591331205"> RTP-Me</a></li>
+            <li><a class="flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/seeeeds-crop-protection-from-premature-harvesting.79662/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/79/79662.jpg?1591223408"> Seeeeds</a></li>
+            <li><a class="flex items-center px-4 py-3 text-gray-500 cursor-not-allowed" href="#"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/80/80412.jpg?1592624921"> <s>Silky Shops</s></a></li>
+            <li><a class="flex items-center px-4 py-3 text-gray-500 cursor-not-allowed" href="#"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/69/69823.jpg?1564414434"> <s>SilkySpawners</s></a></li>
+            <li><hr class="border-gray-700"></li>
+            <li><a target="_blank" class="block px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/authors/mrbuttersdev.159512/">View on Spigot</a></li>
+            <li><a target="_blank" class="block px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-b-lg transition duration-200" href="https://hangar.papermc.io/MrButtersDev?sort=-updated">View on Hanger</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Dynamically add 'active' class to nav-link based on current page
+  const currentPage = location.pathname.split("/").pop() || "index.html";
+  const links = document.querySelectorAll("a.nav-link");
+
+  links.forEach(link => {
+    const href = link.getAttribute("href");
+    if (href === currentPage) {
+      link.classList.add("text-white", "font-bold");
+      link.classList.remove("text-gray-300");
+    }
+  });
+</script>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MrButtersDev - Discord Timestamp Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS CDN - Ensure it's loaded after Bootstrap if Bootstrap styles are primary, or before if Tailwind is primary for specific sections -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="https://avatars.githubusercontent.com/u/24533643?s=40&v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <meta property="og:image" content="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069">
+    <meta name="theme-color" content="#ab000e">
+    <meta name="twitter:description" content="Automatically pickup blocks that you mine! If a block drops XP you get that too!">
+    <meta property="og:description" content="Automatically pickup blocks that you mine! If a block drops XP you get that too!">
+    <meta property="og:site_name" content="MrButtersDev - Tools: Discord Timestamp">
+    <meta name="twitter:site" content="MrButtersDev">
+    <meta content="https://mrbutters.dev/tools/discord-timestamp.html" property="og:url" />
+
+    <style>
+        /* Your existing custom styles for the main website */
+        .navbar-gradient {
+            position: relative;
+        }
+
+        .navbar-gradient::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, rgb(33, 37, 41), red);
+            z-index: 1;
+        }
+
+        .btn {
+            display: block;
+            margin-bottom: -15px;
+        }
+
+        /* Custom styles for the Discord Timestamp Generator to ensure Discord theme */
+        /* These styles are more specific or use !important to override Bootstrap if needed */
+        .discord-tool-wrapper {
+            font-family: 'Inter', sans-serif;
+            background-color: #36393F !important; /* Discord dark background */
+            color: #DCDDDE !important; /* Discord light grey text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            box-sizing: border-box;
+            border-radius: 1rem; /* Apply rounded corners to the wrapper */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3); /* Shadow for the wrapper */
+        }
+        .discord-tool-container {
+            background-color: #2F3136 !important; /* Discord lighter dark for container */
+            border-radius: 1rem;
+            max-width: 600px;
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .discord-tool-container input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(1); /* Makes the calendar icon white */
+        }
+        .discord-tool-container .copy-button {
+            background-color: #5865F2 !important; /* Discord blue/purple */
+            color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .discord-tool-container .copy-button:hover {
+            background-color: #4752C4 !important; /* Darker Discord blue on hover */
+            transform: translateY(-2px);
+        }
+        .discord-tool-container .copy-button:active {
+            transform: translateY(0);
+        }
+        .discord-tool-container .input-field {
+            background-color: #40444B !important; /* Discord input background */
+            color: #DCDDDE !important;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            border: none;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .discord-tool-container .output-field {
+            background-color: #202225 !important; /* Even darker for output (Discord chat background) */
+            color: #43B581 !important; /* Discord green for success/online */
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-family: monospace;
+            overflow-x: auto;
+            white-space: nowrap;
+            cursor: pointer;
+            border: 1px solid #40444B !important; /* Border matching input field */
+        }
+        .discord-tool-container .output-field:hover {
+            border-color: #5865F2 !important; /* Discord blue on hover */
+        }
+        .discord-tool-container .format-button {
+            background-color: #40444B !important; /* Discord grey for inactive buttons */
+            color: #DCDDDE !important;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .discord-tool-container .format-button.active {
+            background-color: #5865F2 !important; /* Active Discord blue */
+            color: white !important;
+        }
+        .discord-tool-container .format-button:hover:not(.active) {
+            background-color: #4F545C !important; /* Slightly lighter grey on hover */
+        }
+        .discord-tool-container .example-display {
+            background-color: #202225 !important; /* Discord chat background */
+            color: #DCDDDE !important; /* Discord light grey text */
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-family: 'Inter', sans-serif;
+            border: 1px solid #40444B !important;
+            min-height: 2.5rem;
+            display: flex;
+            align-items: center;
+        }
+        .discord-tool-container #messageBox {
+            background-color: #43B581 !important; /* Discord green for success message */
+        }
+    </style>
+</head>
+<body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const url = "https://api.spigotmc.org/legacy/update.php?resource=70157";
+            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+
+            fetch(proxyUrl)
+                .then(response => response.text())
+                .then(data => {
+                    // Only update if the element exists on this page
+                    const versionBadge = document.getElementById("version-badge");
+                    if (versionBadge) {
+                        versionBadge.textContent = data;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching the data:", error);
+                    const versionBadge = document.getElementById("version-badge");
+                    if (versionBadge) {
+                        versionBadge.textContent = "Error";
+                    }
+                });
+        });
+    </script>
+
+    <nav class="navbar navbar-gradient navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand px-3" href="../index.html">
+            <img src="https://avatars.githubusercontent.com/u/24533643?s=40&v=4" width="30" height="30" class="rounded d-inline-block align-top" alt="">
+            MrButters.Dev
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Home</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../about.html">About</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="pluginsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Plugins
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="pluginsDropdown">
+                        <li><a class="dropdown-item" href="../plugins/autopickup.html"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069"> AutoPickup <span class="badge text-bg-info">Popular</span></a></li>
+                        <li><a class="dropdown-item" href="../plugins/silkyspawnerslite.html"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/76/76103.jpg?1584323673"> SilkySpawnersLITE <span class="badge text-bg-info">Popular</span></a></li>
+                        <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/litespawners.107576/" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/107/107576.jpg?1674536623"> LiteSpawners</a></li>
+                        <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/wax-indicator.93197/" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/93/93197.jpg?1623425764"> Wax Indicator</a></li>
+                        <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/slime-indicator.93368/" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/93/93368.jpg?1623813430"> Slime Indicator</a></li>
+                        <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/rtp-me.79718/" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/79/79718.jpg?1591331205"> RTP-Me</a></li>
+                        <li><a class="dropdown-item" href="https://www.spigotmc.org/resources/seeeeds-crop-protection-from-premature-harvesting.79662/" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/79/79662.jpg?1591223408"> Seeeeds</a></li>
+                        <li><a class="dropdown-item disabled" href="#" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/80/80412.jpg?1592624921"> <s>Silky Shops</s></a></li>
+                        <li><a class="dropdown-item disabled" href="#" target="_blank"><img class="rounded" width="25" height="25" src="https://www.spigotmc.org/data/resource_icons/69/69823.jpg?1564414434"> <s>SilkySpawners</s></a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a target="_blank" class="dropdown-item" href="https://www.spigotmc.org/resources/authors/mrbuttersdev.159512/">View on Spigot</a></li>
+                        <li><a target="_blank" class="dropdown-item" href="https://hangar.papermc.io/MrButtersDev?sort=-updated">View on Hanger</a></li>
+                    </ul>
+                </li>
+                <!-- New "Tools" dropdown -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="toolsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Tools
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="toolsDropdown">
+                        <li><a class="dropdown-item" href="./discord-timestamp.html">Discord Timestamps</a></li>
+                        <!-- Add other tools here if needed -->
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <header class="text-center mb-4">
+            <h1 class="display-4"><img class="rounded" src="https://avatars.githubusercontent.com/u/24533643?s=40&v=4" width="30" height="30" class="d-inline-block align-top" alt=""> Discord Timestamp Generator</h1>
+            <p class="lead">Generate dynamic date-time displays for your Discord messages.</p>
+        </header>
+
+        <section class="mb-5">
+            <!-- Discord Timestamp Generator content starts here -->
+            <div class="discord-tool-wrapper">
+                <div class="discord-tool-container">
+                    <h2 class="text-2xl font-bold text-center text-white mb-4">Timestamp Generator</h2>
+
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-1">
+                            <label for="datetimeInput" class="block text-gray-300 text-sm font-bold mb-2">
+                                Date and Time:
+                            </label>
+                            <input type="datetime-local" id="datetimeInput" class="input-field">
+                        </div>
+                        <div class="flex flex-col justify-end">
+                            <button id="resetToCurrentButton" class="copy-button">
+                                Reset to Current Time
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-300 text-sm font-bold mb-2">
+                            Format:
+                        </label>
+                        <div id="formatButtons" class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                            <button class="format-button active" data-format="F">Long Date/Time</button>
+                            <button class="format-button" data-format="f">Long Date, Short Time</button>
+                            <button class="format-button" data-format="D">Long Date</button>
+                            <button class="format-button" data-format="d">Short Date</button>
+                            <button class="format-button" data-format="T">Long Time</button>
+                            <button class="format-button" data-format="t">Short Time</button>
+                            <button class="format-button" data-format="R">Relative Time</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="outputTimestamp" class="block text-gray-300 text-sm font-bold mb-2">
+                            Generated Timestamp:
+                        </label>
+                        <div id="outputTimestamp" class="output-field" title="Click to copy">
+                            <!-- Timestamp will appear here -->
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="exampleDisplay" class="block text-gray-300 text-sm font-bold mb-2">
+                            Example Display:
+                        </label>
+                        <div id="exampleDisplay" class="example-display">
+                            <!-- Example display will appear here -->
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <button id="copyButton" class="copy-button w-full md:w-auto">
+                            Copy to Clipboard
+                        </button>
+                    </div>
+
+                    <div id="messageBox" class="hidden text-white text-center py-2 px-4 rounded-lg mt-4 transition-opacity duration-300">
+                        Copied to clipboard!
+                    </div>
+                </div>
+            </div>
+            <!-- Discord Timestamp Generator content ends here -->
+        </section>
+
+        <footer class="text-center mt-5">
+            <hr>
+            <p class="small"> <strong>Note:</strong> Ensure compatibility with your server version before installing.</p>
+            <p><strong>Happy Crafting!</strong></p>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript for the Discord Timestamp Generator
+        const datetimeInput = document.getElementById('datetimeInput');
+        const resetToCurrentButton = document.getElementById('resetToCurrentButton');
+        const formatButtons = document.getElementById('formatButtons');
+        const outputTimestampDiv = document.getElementById('outputTimestamp');
+        const exampleDisplayDiv = document.getElementById('exampleDisplay');
+        const copyButton = document.getElementById('copyButton');
+        const messageBox = document.getElementById('messageBox');
+
+        let currentFormat = 'F'; // Default format
+
+        // Function to format a date object into YYYY-MM-DDTHH:MM for datetime-local input
+        function formatDateTimeLocal(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+
+        // Set initial datetime to current time
+        function setInitialDateTime() {
+            const now = new Date();
+            datetimeInput.value = formatDateTimeLocal(now);
+        }
+
+        // Update timestamp and example display based on input and format
+        function updateTimestamp() {
+            const inputDate = new Date(datetimeInput.value);
+            const unixTimestamp = Math.floor(inputDate.getTime() / 1000); // Unix timestamp in seconds
+            const discordTimestamp = `<t:${unixTimestamp}:${currentFormat}>`;
+            outputTimestampDiv.textContent = discordTimestamp;
+
+            // Update example display
+            let exampleText = '';
+            const now = new Date(); // For relative time calculation
+
+            switch (currentFormat) {
+                case 'F': // Long Date/Time (e.g., Friday, July 12, 2025 12:00 PM)
+                    exampleText = inputDate.toLocaleString(undefined, {
+                        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+                        hour: 'numeric', minute: '2-digit', hour12: true
+                    });
+                    break;
+                case 'f': // Long Date, Short Time (e.g., July 12, 2025 12:00 PM)
+                    exampleText = inputDate.toLocaleString(undefined, {
+                        year: 'numeric', month: 'long', day: 'numeric',
+                        hour: 'numeric', minute: '2-digit', hour12: true
+                    });
+                    break;
+                case 'D': // Long Date (e.g., July 12, 2025)
+                    exampleText = inputDate.toLocaleString(undefined, {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
+                    break;
+                case 'd': // Short Date (e.g., 07/12/2025)
+                    exampleText = inputDate.toLocaleDateString(undefined, {
+                        month: '2-digit', day: '2-digit', year: 'numeric'
+                    });
+                    break;
+                case 'T': // Long Time (e.g., 12:00:00 PM)
+                    exampleText = inputDate.toLocaleString(undefined, {
+                        hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true
+                    });
+                    break;
+                case 't': // Short Time (e.g., 12:00 PM)
+                    exampleText = inputDate.toLocaleString(undefined, {
+                        hour: 'numeric', minute: '2-digit', hour12: true
+                    });
+                    break;
+                case 'R': // Relative Time (e.g., 5 minutes ago, in 2 days)
+                    const diffSeconds = Math.floor((inputDate.getTime() - now.getTime()) / 1000);
+                    if (diffSeconds < 60) {
+                        exampleText = diffSeconds === 0 ? 'now' : `${Math.abs(diffSeconds)} second${Math.abs(diffSeconds) === 1 ? '' : 's'} ${diffSeconds < 0 ? 'ago' : 'from now'}`;
+                    } else if (diffSeconds < 3600) {
+                        const minutes = Math.round(diffSeconds / 60);
+                        exampleText = `${minutes} minute${minutes === 1 ? '' : 's'} ${diffSeconds < 0 ? 'ago' : 'from now'}`;
+                    } else if (diffSeconds < 86400) {
+                        const hours = Math.round(diffSeconds / 3600);
+                        exampleText = `${hours} hour${hours === 1 ? '' : 's'} ${diffSeconds < 0 ? 'ago' : 'from now'}`;
+                    } else if (diffSeconds < 604800) { // 7 days
+                        const days = Math.round(diffSeconds / 86400);
+                        exampleText = `${days} day${days === 1 ? '' : 's'} ${diffSeconds < 0 ? 'ago' : 'from now'}`;
+                    } else if (diffSeconds < 2592000) { // 30 days (approx)
+                        const weeks = Math.round(diffSeconds / 604800); // Using weeks for better granularity here
+                        exampleText = `${weeks} week${weeks === 1 ? '' : 's'} ${diffSeconds < 0 ? 'ago' : 'from now'}`;
+                    } else if (diffSeconds < 31536000) { // 365 days (approx)
+                        const months = Math.round(diffSeconds / 2592000);
+                        exampleText = `${months} month${months === 1 ? '' : 's'} ${diffSeconds < 0 ? 'ago' : 'from now'}`;
+                    } else {
+                        const years = Math.round(diffSeconds / 31536000);
+                        exampleText = `${years} year${years === 1 ? '' : 's'} ${diffSeconds < 0 ? 'ago' : 'from now'}`;
+                    }
+                    break;
+                default:
+                    exampleText = 'Select a format';
+            }
+            exampleDisplayDiv.textContent = exampleText;
+        }
+
+        // Event Listeners
+        datetimeInput.addEventListener('change', updateTimestamp);
+        datetimeInput.addEventListener('input', updateTimestamp); // For real-time updates as user types/changes
+
+        resetToCurrentButton.addEventListener('click', () => {
+            setInitialDateTime();
+            updateTimestamp();
+        });
+
+        formatButtons.addEventListener('click', (event) => {
+            if (event.target.classList.contains('format-button')) {
+                // Remove active class from all buttons
+                document.querySelectorAll('.format-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // Add active class to clicked button
+                event.target.classList.add('active');
+                currentFormat = event.target.dataset.format;
+                updateTimestamp();
+            }
+        });
+
+        copyButton.addEventListener('click', () => {
+            const textToCopy = outputTimestampDiv.textContent;
+            if (textToCopy) {
+                // Use document.execCommand for better compatibility in iframes
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    messageBox.textContent = 'Copied to clipboard!';
+                    messageBox.classList.remove('hidden');
+                    messageBox.classList.add('opacity-100');
+                    setTimeout(() => {
+                        messageBox.classList.remove('opacity-100');
+                        messageBox.classList.add('hidden');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    messageBox.textContent = 'Failed to copy!';
+                    messageBox.classList.remove('hidden');
+                    messageBox.classList.add('bg-red-500', 'opacity-100');
+                    setTimeout(() => {
+                        messageBox.classList.remove('opacity-100');
+                        messageBox.classList.add('hidden');
+                        messageBox.classList.remove('bg-red-500'); // Reset background
+                    }, 2000);
+                } finally {
+                    document.body.removeChild(textArea);
+                }
+            }
+        });
+
+        // Allow clicking the output field to copy
+        outputTimestampDiv.addEventListener('click', () => {
+            copyButton.click(); // Simulate a click on the copy button
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setInitialDateTime();
+            updateTimestamp();
+        });
+    </script>
+</body>
+</html>
