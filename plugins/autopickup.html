@@ -71,13 +71,13 @@
                     }
                 });
         });
-        
+
     </script>
 <div id="navbar-placeholder"></div>
 
     <!-- Nav bar -->
     <script>
-    fetch("partials/navbar.html")
+    fetch("/partials/navbar.html")
     .then(res => res.text())
     .then(data => {
         document.getElementById("navbar-placeholder").innerHTML = data;
