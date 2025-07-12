@@ -1,7 +1,7 @@
 <!-- navbar.html -->
 <nav class="navbar-gradient bg-gray-900 text-white p-4 shadow-lg rounded-b-lg">
   <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center">
-    <a class="flex items-center text-xl font-semibold mb-3 lg:mb-0" href="index.html">
+    <a class="flex items-center text-xl font-semibold mb-3 lg:mb-0" href="/index.html">
       <img src="https://avatars.githubusercontent.com/u/24533643?s=40&v=4" width="30" height="30" class="rounded-full mr-2" alt="MrButtersDev Logo">
       MrButters.Dev
     </a>
@@ -17,11 +17,31 @@
     <div class="hidden lg:flex flex-grow justify-end items-center" id="navbarSupportedContent">
       <ul class="flex flex-col lg:flex-row lg:space-x-8 mt-4 lg:mt-0">
         <li class="nav-item">
-          <a class="nav-link relative py-2 px-3 text-gray-300 hover:text-white transition duration-300 flex items-center" href="index.html">Home</a>
+          <a class="nav-link relative py-2 px-3 text-gray-300 hover:text-white transition duration-300 flex items-center" href="/index.html">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link relative py-2 px-3 text-gray-300 hover:text-white transition duration-300 flex items-center" href="about.html">About</a>
+          <a class="nav-link relative py-2 px-3 text-gray-300 hover:text-white transition duration-300 flex items-center" href="/about.html">About</a>
         </li>
+
+        <!-- Tools Dropdown -->
+        <li class="nav-item relative group dropdown">
+        <div class="dropdown-toggle flex items-center py-2 px-3 text-gray-300 hover:text-white cursor-pointer transition duration-300">
+            Tools
+            <svg class="ml-1 w-4 h-4 transform group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </div>
+        <ul class="dropdown-menu absolute bg-gray-800 shadow-xl hidden rounded-lg w-64 z-20 group-hover:block">
+            <li>
+            <a class="nav-link flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-lg transition duration-200" href="/tools/discord-timestamps.html">
+                <img class="rounded-full mr-3 w-7 h-7" src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord Icon">
+                Discord Timestamps
+                <span class="ml-auto bg-purple-600 text-xs font-semibold px-2 py-0.5 rounded-full">New</span>
+            </a>
+            </li>
+        </ul>
+        </li>
+
 
         <!-- Plugins Dropdown -->
         <li class="nav-item relative group dropdown">
@@ -32,8 +52,8 @@
             </svg>
           </div>
           <ul class="dropdown-menu absolute bg-gray-800 shadow-xl hidden rounded-lg w-64 z-20 group-hover:block">
-            <li><a class="nav-link flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-t-lg transition duration-200" href="./plugins/autopickup.html"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069"> AutoPickup <span class="ml-auto bg-blue-500 text-xs font-semibold px-2 py-0.5 rounded-full">Popular</span></a></li>
-            <li><a class="nav-link flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="./plugins/silkyspawnerslite.html"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/76/76103.jpg?1584323673"> SilkySpawnersLITE <span class="ml-auto bg-blue-500 text-xs font-semibold px-2 py-0.5 rounded-full">Popular</span></a></li>
+            <li><a class="nav-link flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 rounded-t-lg transition duration-200" href="/plugins/autopickup.html"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/70/70157.jpg?1565240069"> AutoPickup <span class="ml-auto bg-blue-500 text-xs font-semibold px-2 py-0.5 rounded-full">Popular</span></a></li>
+            <li><a class="nav-link flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="/plugins/silkyspawnerslite.html"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/76/76103.jpg?1584323673"> SilkySpawnersLITE <span class="ml-auto bg-blue-500 text-xs font-semibold px-2 py-0.5 rounded-full">Popular</span></a></li>
             <li><a class="nav-link flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/litespawners.107576/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/107/107576.jpg?1674536623"> LiteSpawners</a></li>
             <li><a class="nav-link flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/wax-indicator.93197/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/93/93197.jpg?1623425764"> Wax Indicator</a></li>
             <li><a class="nav-link flex items-center px-4 py-3 text-gray-200 hover:bg-gray-700 transition duration-200" href="https://www.spigotmc.org/resources/slime-indicator.93368/" target="_blank"><img class="rounded-full mr-3 w-7 h-7" src="https://www.spigotmc.org/data/resource_icons/93/93368.jpg?1623813430"> Slime Indicator</a></li>
