@@ -44,26 +44,42 @@
     <div id="navbar-placeholder"></div>
 
     <script>
-        fetch("partials/navbar.html")
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById("navbar-placeholder").innerHTML = data;
+    fetch("partials/navbar.html")
+    .then(res => res.text())
+    .then(data => {
+        document.getElementById("navbar-placeholder").innerHTML = data;
 
-            const currentPage = location.pathname.split("/").pop() || "index.html";
-            const links = document.querySelectorAll("a.nav-link");
+        const currentPage = location.pathname.split("/").pop() || "index.html";
+        const navLinks = document.querySelectorAll("a.nav-link, .dropdown-menu a");
 
-            links.forEach(link => {
-            const href = link.getAttribute("href");
+        let dropdownMatch = null;
 
-            link.classList.remove("active", "text-gray-500");
+        navLinks.forEach(link => {
+        const href = link.getAttribute("href");
+        if (!href) return;
 
-            if (href === currentPage) {
-                link.classList.add("active");
-            } else {
-                link.classList.add("text-gray-500");
+        // Reset all link styles
+        link.classList.remove("active", "text-gray-500");
+
+        if (href.endsWith(currentPage)) {
+            link.classList.add("active");
+
+            // Track the parent dropdown menu, if it exists
+            const parentDropdown = link.closest(".dropdown");
+            if (parentDropdown) {
+            dropdownMatch = parentDropdown.querySelector(".dropdown-toggle");
             }
-            });
+        } else {
+            link.classList.add("text-gray-500");
+        }
         });
+
+        // If a dropdown was matched, highlight its toggle
+        if (dropdownMatch) {
+        dropdownMatch.classList.add("text-white", "font-bold");
+        dropdownMatch.classList.remove("text-gray-300");
+        }
+    });
     </script>
 
     <div class="container mx-auto px-4 py-8">
